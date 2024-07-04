@@ -18,6 +18,10 @@ suite('Extension Test Suite', () => {
 			spawnSync('touch', [`${f.toString()}/test_${i}.txt` ]);
 		}
 		await new Promise((resolve) => setTimeout(resolve, 200));
+
+		const files = await vscode.workspace.findFiles("*.txt");
+		assert.strictEqual(files.length, 1000);
+
 		const w = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(vscode.workspace.workspaceFolders![0],"*.txt"));
 		
 		// assert.strictEqual(f, '/Users/dietrich/git/fs-watcher-bug/vscode-test-ws');
@@ -29,6 +33,8 @@ suite('Extension Test Suite', () => {
 		
 		spawnSync('sh',[`${f.toString()}/../x.sh`]);
 		await new Promise((resolve) => setTimeout(resolve, 5000));
+		const files2 = await vscode.workspace.findFiles("*.txt");
+		assert.strictEqual(files2.length, 0);
 		w.dispose();
 
 		assert.strictEqual(1000, counter);
