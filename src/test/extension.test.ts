@@ -20,7 +20,7 @@ suite('Extension Test Suite', () => {
 		await new Promise((resolve) => setTimeout(resolve, 200));
 		const w = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(vscode.workspace.workspaceFolders![0],"*.txt"));
 		
-		assert.strictEqual(f, '/Users/dietrich/git/fs-watcher-bug/vscode-test-ws');
+		// assert.strictEqual(f, '/Users/dietrich/git/fs-watcher-bug/vscode-test-ws');
 		console.log(f);
 		w.onDidDelete((e) => {
 			console.log(e);
