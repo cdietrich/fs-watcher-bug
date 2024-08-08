@@ -1,7 +1,6 @@
 import * as assert from 'assert';
 
-import {spawnSync} from 'child_process';
-
+import fs from "fs";
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
@@ -15,7 +14,7 @@ suite('Extension Test Suite', () => {
 		let counter = 0;
 		let f = vscode.workspace.workspaceFolders![0].uri.fsPath ; 
 		for (let i = 0; i < 1000; i++) {
-			spawnSync('touch', [`${f.toString()}/test_${i}.txt` ]);
+			fs.writeFileSync(`${f.toString()}/test_${i}.txt`,"")
 		}
 		await new Promise((resolve) => setTimeout(resolve, 200));
 
@@ -31,7 +30,9 @@ suite('Extension Test Suite', () => {
 			counter++;
 		});
 		
-		spawnSync('sh',[`${f.toString()}/../x.sh`]);
+		for (let i = 0; i < 1000; i++) {
+			fs.unlinkSync(`${f.toString()}/test_${i}.txt`)
+		  }
 		await new Promise((resolve) => setTimeout(resolve, 5000));
 		const files2 = await vscode.workspace.findFiles("*.txt");
 		assert.strictEqual(files2.length, 0);
